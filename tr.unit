@@ -1,0 +1,2 @@
+process=command:tr 123 abc < in/data > out/_
+in/data=unit:source.unit:out/_
