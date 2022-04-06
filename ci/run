@@ -38,4 +38,4 @@ chmod 600 ci/gen/identity
 SSH_ASKPASS=ci/askpass ssh-add ci/gen/identity <<< "$PASSPHRASE"
 SSH='ssh -o UserKnownHostsFile=ci/known_hosts'
 rsync -a -e "$SSH" ci/gen/state/cas/ $REMOTE/.knit/cas/
-$SSH ${REMOTE%%:*} run-hook $(<ci/gen/invocation)
+$SSH ${REMOTE%%:*} run-hook $(<ci/gen/invocation) > ci/gen/url
