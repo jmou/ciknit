@@ -1,0 +1,14 @@
+name: Run flow
+
+on:
+  push
+
+jobs:
+  run:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - env:
+        PASSPHRASE: ${{ secrets.PASSPHRASE }}
+        USER: ${{ secrets.USER }}
+      run: ./ci/run

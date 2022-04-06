@@ -1,0 +1,3 @@
+#!/bin/sh
+# https://stackoverflow.com/a/52671286/13773246
+exec cat
