@@ -1,2 +1,0 @@
-process=command:cat in/file > out/_
-in/file=file:source.txt

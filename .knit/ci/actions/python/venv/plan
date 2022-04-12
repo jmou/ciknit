@@ -1,0 +1,7 @@
+_pos=main
+uncacheable=1
+process=command:python3 in/setup.py
+in/setup.py=file:setup.py
+in/venvcache=param:out/venvcache
+in/requirements.txt=param:out/requirements.txt
+

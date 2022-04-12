@@ -1,2 +1,0 @@
-process=command:perl -e 'print reverse <>' in/data > out/_
-in/data=unit:source.unit:out/_

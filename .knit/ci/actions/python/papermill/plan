@@ -1,0 +1,15 @@
+_pos=preview
+process=command:chmod +x in/preview && in/preview
+in/preview=file:preview
+in/python.sh=param:out/python.sh
+in/passthrough/=_pos:main:out/
+
+_pos=main
+process=command:bash -e in/run.sh
+in/run.sh=file:run.sh
+in/knitpyter.py=file:knitpyter.py
+in/python.sh=param:out/python.sh
+in/in.ipynb=param:out/in.ipynb
+in/session=param:out/session
+in/parameters/=param:out/parameters/
+

@@ -1,0 +1,55 @@
+#!/bin/bash -ex
+
+: ${PASSPHRASE?}
+
+[[ -n $NESTED ]] || NESTED=1 exec ssh-agent "$0"
+
+REMOTE="${REMOTE-$USER@qx.knitinknit.com:src/skein}"
+
+docker() {
+    if type -P docker &> /dev/null; then
+        command docker "$@"
+    else
+        command="$1"
+        shift
+        if [[ $command = run ]]; then
+            set -- --userns keep-id "$@"
+        fi
+        set -- "$command" "$@"
+        podman "$@"
+    fi
+}
+
+remote-hook() {
+    if [[ $REMOTE = *:* ]]; then
+        $SSH ${REMOTE%%:*} run-hook "$@"
+    else
+        $REMOTE/ssh/shell run-hook "$@"
+    fi
+}
+
+rm -rf .knit/ci/gen/files
+mkdir -p .knit/ci/gen/files/root .knit/ci/gen/state .knit/ci/gen/vartmp
+cp .knit/ci/plan .knit/ci/gen/
+cp -RL .knit/ci/{actions,planner.py} .knit/ci/gen/files/
+cp .actions *.* .knit/ci/gen/files/root
+cp -L .knit/ci/joe.json .knit/ci/gen/state/
+
+# TODO make interoperable with local knit
+# bigquery/session relies on $HOME
+docker run --rm -u $UID --security-opt label=disable \
+    -e HOME=/root \
+    -v $PWD/.knit/ci/gen:/root/src/nodes/gen:ro \
+    -v $PWD/.knit/ci/gen/state:/root/src/nodes/state \
+    -v $PWD/.knit/ci/gen/vartmp:/var/tmp/knit \
+    ghcr.io/jmou/knit \
+    knit run-plan gen/plan gen/files > .knit/ci/gen/invocation
+
+curl -o .knit/ci/gen/identity https://calvin.mou.fo/user/skein/identity
+chmod 600 .knit/ci/gen/identity
+SSH_ASKPASS=.knit/ci/askpass ssh-add .knit/ci/gen/identity <<< "$PASSPHRASE"
+SSH='ssh -o UserKnownHostsFile=.knit/ci/known_hosts'
+rsync -a -e "$SSH" .knit/ci/gen/state/cas/ $REMOTE/.knit/cas/
+remote-hook $(<.knit/ci/gen/invocation) > .knit/ci/gen/url
+
+echo ok

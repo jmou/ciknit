@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo in/param/venvcache=inline:/var/tmp/knit/venvcache
+echo
+echo requirements.txt
+cat "$1"

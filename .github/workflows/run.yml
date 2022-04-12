@@ -11,13 +11,13 @@ jobs:
     - env:
         PASSPHRASE: ${{ secrets.PASSPHRASE }}
         USER: ${{ secrets.USER }}
-      run: ./ci/run
+      run: .knit/ci/run
     - run: >
         curl -f
         -H 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
         -d '{
           "state": "success",
-          "target_url": "'"$(<ci/gen/url)"'",
+          "target_url": "'"$(<.knit/ci/gen/url)"'",
           "description": "View data",
           "context": "Knitinknit"
         }'
