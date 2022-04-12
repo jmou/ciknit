@@ -7,14 +7,23 @@ jobs:
   run:
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    - env:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - uses: actions/setup-go@v3
+      with:
+        go-version: '>=1.16'
+    - run: make -C .knit/submodules/bigquery-module knit-bigquery-module
+    - run: 'echo "$BIGQUERY_JOE" > .knit/ci/joe.json'
+      env:
+        BIGQUERY_JOE: ${{ secrets.BIGQUERY_JOE }}
+    - run: .knit/ci/run
+      env:
         PASSPHRASE: ${{ secrets.PASSPHRASE }}
         USER: ${{ secrets.USER }}
-      run: .knit/ci/run
     - run: >
         curl -f
-        -H 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
+        -H "Authorization: Bearer $GITHUB_TOKEN"
         -d '{
           "state": "success",
           "target_url": "'"$(<.knit/ci/gen/url)"'",
@@ -22,3 +31,5 @@ jobs:
           "context": "Knitinknit"
         }'
         "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
