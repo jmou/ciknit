@@ -1,0 +1,43 @@
+{
+  "static-steps": {
+    "_db": {
+      "action": "bigquery/session",
+      "params": {
+        "in/param/user": "inline:joe"
+      }
+    }
+  },
+  "extensions": {
+    ".ipynb": {
+      "action": "python/papermill",
+      "translator": "in/translators/python/papermill",
+      "params": {
+        "in/param/session": "_pos:_db:out/session",
+        "in/param/root/knitpyter.py": "file:knitpyter.py",
+        "in/param/in.ipynb": "translated:"
+      }
+    },
+    ".lift": {
+      "action": "bigquery/lift",
+      "translator": "in/translators/bigquery/lift",
+      "params": {
+        "in/param/session": "_pos:_db:out/session"
+      }
+    },
+    ".sql": {
+      "action": "bigquery/transform",
+      "translator": "in/translators/bigquery/transform",
+      "params": {
+        "in/param/session": "_pos:_db:out/session",
+        "in/param/query": "translated:"
+      }
+    },
+    ".txt": {
+      "action": "python/venv",
+      "params": {
+        "in/param/venvcache": "inline:/var/tmp/knit/venvcache",
+        "in/param/requirements.txt": "original:"
+      }
+    }
+  }
+}

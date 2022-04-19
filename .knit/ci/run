@@ -31,8 +31,8 @@ remote-hook() {
 rm -rf .knit/ci/gen/files
 mkdir -p .knit/ci/gen/files/root .knit/ci/gen/state .knit/ci/gen/vartmp
 cp .knit/ci/plan .knit/ci/gen/
-cp -RL .knit/ci/{actions,planner.py} .knit/ci/gen/files/
-cp .actions *.* .knit/ci/gen/files/root
+cp -RL .knit/ci/{actions,translators,planner.py} .knit/ci/gen/files/
+cp *.* .knit/ci/gen/files/root
 cp -L .knit/ci/joe.json .knit/ci/gen/state/
 
 # TODO make interoperable with local knit

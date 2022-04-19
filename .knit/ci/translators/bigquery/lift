@@ -1,0 +1,9 @@
+#!/bin/bash
+
+IFS=. read projectid datasetid tableid < "$1"
+
+cat <<EOF
+in/param/projectid=inline:$projectid
+in/param/datasetid=inline:$datasetid
+in/param/tableid=inline:$tableid
+EOF

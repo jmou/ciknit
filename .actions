@@ -1,5 +1,0 @@
-.ipynb python/papermill
-.lift bigquery/lift
-.session bigquery/session
-.sql bigquery/transform
-.txt python/venv

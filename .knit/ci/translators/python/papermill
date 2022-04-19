@@ -2,8 +2,5 @@
 
 grep -o '"#@knit .*"' "$1" | sed 's/^"#@knit \|\(\\n\)\?"$//g'
 
-# FIXME hardcoded dependency
-echo in/param/session=_pos:db:out/session
 echo
-echo in.ipynb
 cat "$1"
