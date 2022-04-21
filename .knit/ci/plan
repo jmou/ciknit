@@ -1,12 +1,11 @@
 _pos=plan
-process=command:python3 in/planner.py
+process=command:python3 in/preplanner.py
+in/preplanner.py=file:preplanner.py
 in/planner.py=file:planner.py
 in/actions/=file:actions/
-in/translators/=file:translators/
 in/root/=file:root/
 
 _pos=main
-_source=skein:main:unwrap
 uncacheable=1
 process=dynamic
 in/=_pos:plan:out/

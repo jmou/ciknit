@@ -1,6 +1,0 @@
-#!/bin/bash
-
-grep -o '"#@knit .*"' "$1" | sed 's/^"#@knit \|\(\\n\)\?"$//g'
-
-echo
-cat "$1"

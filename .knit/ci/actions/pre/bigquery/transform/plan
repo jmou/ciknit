@@ -1,0 +1,5 @@
+_pos=main
+process=command:python3 in/template.py
+in/template.py=file:template.py
+in/original=param:out/original
+

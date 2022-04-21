@@ -1,0 +1,4 @@
+_pos=main
+process=command:grep -o '"#@knit .*"' in/nb.ipynb | sed 's/^"#@knit \|\(\\n\)\?"$//g' > out/params
+in/nb.ipynb=param:out/original
+

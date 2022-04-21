@@ -10,26 +10,26 @@
   "extensions": {
     ".ipynb": {
       "action": "python/papermill",
-      "translator": "in/translators/python/papermill",
+      "pre": "pre/python/papermill",
       "params": {
         "in/param/session": "_pos:_db:out/session",
         "in/param/root/knitpyter.py": "file:knitpyter.py",
-        "in/param/in.ipynb": "translated:"
+        "in/param/in.ipynb": "original:"
       }
     },
     ".lift": {
       "action": "bigquery/lift",
-      "translator": "in/translators/bigquery/lift",
+      "pre": "pre/bigquery/lift",
       "params": {
         "in/param/session": "_pos:_db:out/session"
       }
     },
     ".sql": {
       "action": "bigquery/transform",
-      "translator": "in/translators/bigquery/transform",
+      "pre": "pre/bigquery/transform",
       "params": {
         "in/param/session": "_pos:_db:out/session",
-        "in/param/query": "translated:"
+        "in/param/query": "pre:sql"
       }
     },
     ".txt": {
