@@ -10,6 +10,5 @@ in/run.sh=file:run.sh
 in/python.sh=param:out/python.sh
 in/root/=param:out/root/
 in/in.ipynb=param:out/in.ipynb
-in/session=param:out/session
 in/parameters/=param:out/parameters/
 

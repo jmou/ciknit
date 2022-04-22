@@ -31,7 +31,7 @@ remote-hook() {
 rm -rf .knit/ci/gen/files
 mkdir -p .knit/ci/gen/files/root .knit/ci/gen/state .knit/ci/gen/vartmp
 cp .knit/ci/plan .knit/ci/gen/
-cp -RL .knit/ci/{actions,preplanner.py,planner.py} .knit/ci/gen/files/
+cp -RL .knit/ci/{modules,preplanner.py,planner.py} .knit/ci/gen/files/
 cp *.* .knit/ci/gen/files/root
 cp -L .knit/ci/joe.json .knit/ci/gen/state/
 

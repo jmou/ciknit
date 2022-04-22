@@ -1,0 +1,12 @@
+_pos=pre
+process=command:python3 in/template.py
+in/template.py=file:template.py
+in/original=param:out/original
+
+_pos=main
+process=identity
+in/module/=file:module/
+in/module/param/session=param:out/session
+in/module/param/query=_pos:pre:out/sql
+in/params=_pos:pre:out/params
+

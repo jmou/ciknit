@@ -1,5 +1,0 @@
-_pos=main
-process=command:bash in/parse.sh < in/original > out/params
-in/parse.sh=file:parse.sh
-in/original=param:out/original
-

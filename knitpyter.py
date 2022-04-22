@@ -14,8 +14,8 @@ def ref(step, production):
 
 
 def creds_file():
-    if os.path.exists('in/session'):
-        with open('in/session') as fh:
+    if os.path.exists('session'):
+        with open('session') as fh:
             for line in fh:
                 if line.startswith('credentials='):
                     return line.split('=', 1)[1].strip()

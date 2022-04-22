@@ -2,7 +2,7 @@ _pos=plan
 process=command:python3 in/preplanner.py
 in/preplanner.py=file:preplanner.py
 in/planner.py=file:planner.py
-in/actions/=file:actions/
+in/modules/=file:modules/
 in/root/=file:root/
 
 _pos=main

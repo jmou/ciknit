@@ -1,0 +1,12 @@
+_pos=pre
+process=command:grep -o '"#@knit .*"' in/nb.ipynb | sed 's/^"#@knit \|\(\\n\)\?"$//g' > out/params
+in/nb.ipynb=param:out/original
+
+_pos=plan
+process=identity
+in/module/=file:module/
+in/module/param/in.ipynb=param:out/original
+in/module/param/python.sh=param:out/python.sh
+in/module/param/root/=param:out/root/
+in/params=_pos:pre:out/params
+

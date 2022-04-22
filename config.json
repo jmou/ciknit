@@ -1,42 +1,41 @@
 {
-  "static-steps": {
+  "presteps": {
     "_db": {
-      "action": "bigquery/session",
+      "module": "bigquery/session",
       "params": {
         "in/param/user": "inline:joe"
+      }
+    },
+    "_venv": {
+      "module": "python/venv",
+      "params": {
+        "in/param/requirements.txt": "file:requirements.txt",
+        "in/param/venvcache": "inline:/var/tmp/knit/venvcache"
       }
     }
   },
   "extensions": {
     ".ipynb": {
       "action": "python/papermill",
-      "pre": "pre/python/papermill",
       "params": {
-        "in/param/session": "_pos:_db:out/session",
+        "in/param/original": "original:",
+        "in/param/python.sh": "_pos:_venv:out/python.sh",
         "in/param/root/knitpyter.py": "file:knitpyter.py",
-        "in/param/in.ipynb": "original:"
+        "in/param/root/session": "_pos:_db:out/session"
       }
     },
     ".lift": {
       "action": "bigquery/lift",
-      "pre": "pre/bigquery/lift",
       "params": {
+        "in/param/original": "original:",
         "in/param/session": "_pos:_db:out/session"
       }
     },
     ".sql": {
       "action": "bigquery/transform",
-      "pre": "pre/bigquery/transform",
       "params": {
-        "in/param/session": "_pos:_db:out/session",
-        "in/param/query": "pre:sql"
-      }
-    },
-    ".txt": {
-      "action": "python/venv",
-      "params": {
-        "in/param/venvcache": "inline:/var/tmp/knit/venvcache",
-        "in/param/requirements.txt": "original:"
+        "in/param/original": "original:",
+        "in/param/session": "_pos:_db:out/session"
       }
     }
   }

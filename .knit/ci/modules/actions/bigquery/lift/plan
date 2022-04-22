@@ -1,0 +1,11 @@
+_pos=pre
+process=command:bash in/parse.sh < in/original > out/params
+in/parse.sh=file:parse.sh
+in/original=param:out/original
+
+_pos=main
+process=identity
+in/module/=file:module/
+in/module/param/session=param:out/session
+in/params=_pos:pre:out/params
+
