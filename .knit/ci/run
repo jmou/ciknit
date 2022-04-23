@@ -20,6 +20,22 @@ docker() {
     fi
 }
 
+run-knit() {
+    if [[ -z $KNIT ]]; then
+        # bigquery/session relies on $HOME
+        # KNIT_DIR is actually .knit/ci/gen/state
+        docker run --rm -u $UID --security-opt label=disable \
+            -e HOME=/root \
+            -v $PWD/.knit/ci/gen:/root/src/nodes/gen:ro \
+            -v $PWD/.knit/ci/gen/state:/root/src/nodes/state \
+            -v $PWD/.knit/ci/gen/vartmp:/var/tmp/knit \
+            ghcr.io/jmou/knit \
+            knit run-plan gen/plan gen/files
+    else
+        $KNIT run-plan .knit/ci/gen/plan .knit/ci/gen/files
+    fi
+}
+
 remote-hook() {
     if [[ $REMOTE = *:* ]]; then
         $SSH ${REMOTE%%:*} run-hook "$@"
@@ -35,21 +51,14 @@ cp -RL .knit/ci/{modules,preplanner.py,planner.py} .knit/ci/gen/files/
 cp *.* .knit/ci/gen/files/root
 cp -L .knit/ci/joe.json .knit/ci/gen/state/
 
-# TODO make interoperable with local knit
-# bigquery/session relies on $HOME
-docker run --rm -u $UID --security-opt label=disable \
-    -e HOME=/root \
-    -v $PWD/.knit/ci/gen:/root/src/nodes/gen:ro \
-    -v $PWD/.knit/ci/gen/state:/root/src/nodes/state \
-    -v $PWD/.knit/ci/gen/vartmp:/var/tmp/knit \
-    ghcr.io/jmou/knit \
-    knit run-plan gen/plan gen/files > .knit/ci/gen/invocation
+run-knit > .knit/ci/gen/invocation
 
 curl -o .knit/ci/gen/identity https://calvin.mou.fo/user/skein/identity
 chmod 600 .knit/ci/gen/identity
 SSH_ASKPASS=.knit/ci/askpass ssh-add .knit/ci/gen/identity <<< "$PASSPHRASE"
 SSH='ssh -o UserKnownHostsFile=.knit/ci/known_hosts'
-rsync -a -e "$SSH" .knit/ci/gen/state/cas/ $REMOTE/.knit/cas/
+mkdir -p .knit/cas/  # if exists, used by local knit runs
+rsync -a -e "$SSH" .knit/cas/ .knit/ci/gen/state/cas/ $REMOTE/.knit/cas/
 remote-hook $(<.knit/ci/gen/invocation) > .knit/ci/gen/url
 
 echo ok
