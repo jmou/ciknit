@@ -59,6 +59,7 @@ SSH_ASKPASS=.knit/ci/askpass ssh-add .knit/ci/gen/identity <<< "$PASSPHRASE"
 SSH='ssh -o UserKnownHostsFile=.knit/ci/known_hosts'
 mkdir -p .knit/cas/  # if exists, used by local knit runs
 rsync -a -e "$SSH" .knit/cas/ .knit/ci/gen/state/cas/ $REMOTE/.knit/cas/
-remote-hook $(<.knit/ci/gen/invocation) > .knit/ci/gen/url
+remote-hook $(<.knit/ci/gen/invocation) > .knit/ci/gen/runid
+echo "http://qz.knitinknit.com/run/$(<.knit/ci/gen/runid)" > .knit/ci/gen/url
 
 echo ok
