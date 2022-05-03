@@ -5,8 +5,8 @@ from google.cloud import bigquery
 
 
 def ref(step, production):
-    if os.path.exists('/home/joe/src/knit/knit'):
-        command = ['/home/joe/src/knit/knit', 'show-output', production, 'out/table']
+    if 'KNIT' in os.environ:
+        command = [os.environ['KNIT'], 'show-output', production, 'out/table']
         return subprocess.check_output(command, cwd='/home/joe/src/skein',
                                        universal_newlines=True)
     else:
