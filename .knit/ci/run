@@ -4,7 +4,7 @@
 
 [[ -n $NESTED ]] || NESTED=1 exec ssh-agent "$0"
 
-REMOTE="${REMOTE-$USER@qx.knitinknit.com:src/skein}"
+REMOTE="${REMOTE-$USER@qx.knitinknit.com:src/fabric}"
 
 docker() {
     if type -P docker &> /dev/null; then
@@ -55,7 +55,7 @@ cp -L .knit/ci/joe.json /var/tmp/knit/bigquery/
 
 run-knit > .knit/ci/gen/invocation
 
-curl -o .knit/ci/gen/identity https://calvin.mou.fo/user/skein/identity
+curl -o .knit/ci/gen/identity https://calvin.mou.fo/user/fabric/identity
 chmod 600 .knit/ci/gen/identity
 SSH_ASKPASS=.knit/ci/askpass ssh-add .knit/ci/gen/identity <<< "$PASSPHRASE"
 SSH='ssh -o UserKnownHostsFile=.knit/ci/known_hosts'

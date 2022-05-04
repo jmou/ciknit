@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
 cp -R in/passthrough/* out/
-mkdir -p out/_skein/preview
+mkdir -p out/_fabric/preview
 # nbconvert interprets output relative to input :/
-sh in/python.sh -m jupyter nbconvert --to html --output ../../out/_skein/preview/index.html in/passthrough/out.ipynb
+sh in/python.sh -m jupyter nbconvert --to html --output ../../out/_fabric/preview/index.html in/passthrough/out.ipynb

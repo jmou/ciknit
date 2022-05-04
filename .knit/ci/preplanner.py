@@ -58,7 +58,7 @@ with open('out/plan', 'w') as plan_fh:
     print(file=plan_fh)
 
     print('_pos=main', file=plan_fh)
-    print('_source=skein:main:unwrap', file=plan_fh)
+    print('_source=fabric:main:unwrap', file=plan_fh)
     print('uncacheable=1', file=plan_fh)
     print('process=dynamic', file=plan_fh)
     print('in/=_pos:plan:out/', file=plan_fh)

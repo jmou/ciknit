@@ -7,8 +7,8 @@ from google.cloud import bigquery
 def ref(step, production):
     if 'KNIT' in os.environ:
         command = [os.environ['KNIT'], 'show-output', production, 'out/table']
-        return subprocess.check_output(command, cwd='/home/joe/src/skein',
-                                       universal_newlines=True)
+        return subprocess.check_output(command, cwd='/home/joe/src/fabric',
+                                       text=True)
     else:
         return 'STUB'
 
