@@ -1,6 +1,6 @@
 SELECT
     gestation_weeks,
-    COUNT(1) AS count
+    SUM(COALESCE(plurality, 1)) AS count
 FROM
     @ref(natality)
 WHERE
