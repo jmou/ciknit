@@ -9,6 +9,7 @@ process=command:bash -e in/run.sh
 in/run.sh=file:run.sh
 in/python.sh=param:out/python.sh
 in/root/=param:out/root/
+in/root/knitpyter.py=file:knitpyter.py
 in/in.ipynb=param:out/in.ipynb
 in/parameters/=param:out/parameters/
 

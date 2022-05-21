@@ -2,7 +2,7 @@ import json
 import os
 import shutil
 
-with open('in/root/config.json') as fh:
+with open('in/root/knit.cfg') as fh:
     config = json.load(fh)
 
 os.mkdir('out/files')

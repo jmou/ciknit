@@ -1,0 +1,5 @@
+_pos=main
+process=identity
+in/module/=file:module/
+in/module/param/=param:out/
+

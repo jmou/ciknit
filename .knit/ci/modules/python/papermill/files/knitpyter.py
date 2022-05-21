@@ -5,12 +5,22 @@ from google.cloud import bigquery
 
 
 def ref(step, production):
+    # XXX
+    if os.path.isdir('../../in/parameters'):
+        with open(f'../../in/parameters/{step}') as fh:
+            return fh.read()
+
     if 'KNIT' in os.environ:
         command = [os.environ['KNIT'], 'show-output', production, 'out/table']
         return subprocess.check_output(command, cwd='/home/joe/src/fabric',
                                        text=True)
     else:
         return 'STUB'
+
+
+# XXX
+def is_active():
+    return 'KNIT' in os.environ
 
 
 def creds_file():

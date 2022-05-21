@@ -1,5 +1,3 @@
-select name, sum(number) as count
-from @ref(names)
-group by name
-order by count desc
-limit 5
+SELECT year, name, number
+FROM @ref(ranks)
+WHERE rank <= 15

@@ -1,0 +1,5 @@
+_pos=main
+process=command:bash in/python.sh in/original > out/stdout
+in/python.sh=param:out/python.sh
+in/original=param:out/original
+
