@@ -1,29 +1,11 @@
+import io
 import os
-import subprocess
 
+import pandas as pd
 from google.cloud import bigquery
 
 
-def ref(step, production):
-    # XXX
-    if os.path.isdir('../../in/parameters'):
-        with open(f'../../in/parameters/{step}') as fh:
-            return fh.read()
-
-    if 'KNIT' in os.environ:
-        command = [os.environ['KNIT'], 'show-output', production, 'out/table']
-        return subprocess.check_output(command, cwd='/home/joe/src/fabric',
-                                       text=True)
-    else:
-        return 'STUB'
-
-
-# XXX
-def is_active():
-    return 'KNIT' in os.environ
-
-
-def creds_file():
+def _creds_file():
     if os.path.exists('session'):
         with open('session') as fh:
             for line in fh:
@@ -32,19 +14,25 @@ def creds_file():
     return '/home/joe/src/bigquery-module/dbt-tutorial-329716-f95310c71231.json'
 
 
-def bigquery_table(resource):
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = creds_file()
-    client = bigquery.Client()
-    attrs = {}
-    for line in resource.splitlines():
-        key, value = line.split('=', 1)
-        attrs[key] = value
+def _resolve(resource, path):
+    if resource.startswith('@ref(') and resource.endswith(')'):
+        if os.path.isdir('../../in/parameters'):
+            step = resource[5:-1]
+            with open(f'../../in/parameters/{step}/{path}') as fh:
+                return fh.read()
+    return resource
+
+
+def read_csv(resource):
+    return pd.read_csv(io.StringIO(_resolve(resource, 'stdout')))
+
+
+def read_bigquery(resource):
+    resource_data = _resolve(resource, 'table')
+    attrs = dict(line.split('=', 1) for line in resource_data.splitlines())
     assert attrs['store'] == 'bigquery'
     # TODO should verify tamper
     sql = f'select * from `{attrs["projectid"]}.{attrs["datasetid"]}.{attrs["tableid"]}`'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = _creds_file()
+    client = bigquery.Client()
     return client.query(sql).to_dataframe()
-
-
-if __name__ == '__main__':
-    gestation = ref('gestation', 'a3f9e9dea2fce7a386e1af6736bc8b8e190e8a9e')
-    df = bigquery_table(gestation)

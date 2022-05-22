@@ -1,5 +1,5 @@
 _pos=pre
-process=command:grep -o '"#@knit .*"' in/nb.ipynb | sed 's/^"#@knit \|\(\\n\)\?"$//g' > out/params
+process=command:grep -o '@ref([^)]*)' in/nb.ipynb | sed 's|^@ref(\(.*\))$|in/param/parameters/\1/=_pos:\1:out/|' > out/params
 in/nb.ipynb=param:out/original
 
 _pos=plan
